@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Treasures - Tweede Hands Kledingwinkel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <div class="logo">
+                    <h1>Vintage Treasures</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#home">Home</a>
+                    <a href="#producten">Producten</a>
+                    <a href="#over">Over Ons</a>
+                    <a href="#contact">Contact</a>
+                    <div class="cart-icon" onclick="toggleCart()">
+                        <span>🛒</span>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Ontdek Unieke Tweede Hands Mode</h2>
+                    <p>Duurzame fashion met karakter. Vind jouw perfecte vintage piece bij Vintage Treasures.</p>
+                    <a href="#producten" class="btn-primary">Shop Nu</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="producten" class="products">
+            <div class="container">
+                <h2>Onze Collectie</h2>
+                <div class="product-grid">
+                    <div class="product-card" data-id="1">
+                        <img src="https://via.placeholder.com/300x400/8B4513/FFFFFF?text=Vintage+Jas" alt="Vintage Jas">
+                        <div class="product-info">
+                            <h3>Vintage Leren Jas</h3>
+                            <p class="price">€45,00</p>
+                            <button class="add-to-cart" onclick="addToCart(1, 'Vintage Leren Jas', 45)">Toevoegen</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="2">
+                        <img src="https://via.placeholder.com/300x400/4B0082/FFFFFF?text=Retro+Jurk" alt="Retro Jurk">
+                        <div class="product-info">
+                            <h3>Retro Bloemen Jurk</h3>
+                            <p class="price">€28,00</p>
+                            <button class="add-to-cart" onclick="addToCart(2, 'Retro Bloemen Jurk', 28)">Toevoegen</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="3">
+                        <img src="https://via.placeholder.com/300x400/2F4F4F/FFFFFF?text=Denim+Jacket" alt="Denim Jacket">
+                        <div class="product-info">
+                            <h3>Classic Denim Jacket</h3>
+                            <p class="price">€35,00</p>
+                            <button class="add-to-cart" onclick="addToCart(3, 'Classic Denim Jacket', 35)">Toevoegen</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="4">
+                        <img src="https://via.placeholder.com/300x400/8B0000/FFFFFF?text=Vintage+Tas" alt="Vintage Tas">
+                        <div class="product-info">
+                            <h3>Vintage Leren Tas</h3>
+                            <p class="price">€22,00</p>
+                            <button class="add-to-cart" onclick="addToCart(4, 'Vintage Leren Tas', 22)">Toevoegen</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="5">
+                        <img src="https://via.placeholder.com/300x400/556B2F/FFFFFF?text=Retro+Blouse" alt="Retro Blouse">
+                        <div class="product-info">
+                            <h3>Retro Silk Blouse</h3>
+                            <p class="price">€18,00</p>
+                            <button class="add-to-cart" onclick="addToCart(5, 'Retro Silk Blouse', 18)">Toevoegen</button>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-id="6">
+                        <img src="https://via.placeholder.com/300x400/800080/FFFFFF?text=Vintage+Broek" alt="Vintage Broek">
+                        <div class="product-info">
+                            <h3>Vintage High-waist Broek</h3>
+                            <p class="price">€32,00</p>
+                            <button class="add-to-cart" onclick="addToCart(6, 'Vintage High-waist Broek', 32)">Toevoegen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="over" class="about">
+            <div class="container">
+                <h2>Over Vintage Treasures</h2>
+                <p>Wij zijn gepassioneerd door duurzame mode en het geven van een tweede leven aan prachtige kledingstukken. 
+                   Onze collectie bestaat uit zorgvuldig geselecteerde vintage en tweede hands items die elk hun eigen verhaal vertellen.</p>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contact</h2>
+                <div class="contact-info">
+                    <p>📍 Vintage Treasures<br>
+                       Fashionstraat 123<br>
+                       1000 AB Amsterdam</p>
+                    <p>📞 +31 20 123 4567</p>
+                    <p>✉️ info@vintagetreasures.nl</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Winkelmandje</h3>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+        </div>
+        <div class="cart-total">
+            <div class="total-price">
+                <strong>Totaal: €<span id="cart-total">0,00</span></strong>
+            </div>
+            <button class="checkout-btn">Afrekenen</button>
+        </div>
+    </div>
+
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Vintage Treasures. Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

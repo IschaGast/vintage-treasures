@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage Treasures - React Native Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: #8B4513;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #8B4513;
+            border-bottom-color: #8B4513;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 150px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .product-info {
+            padding: 10px;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #8B4513;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .add-btn {
+            width: 100%;
+            background: #8B4513;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .add-btn:hover {
+            background: #A0522D;
+        }
+        
+        .cart-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cart-total {
+            background: #8B4513;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        
+        .checkout-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .hero p {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .hero-btn {
+            background: white;
+            color: #8B4513;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .contact-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+        
+        .cart-badge {
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .about-text {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Vintage Treasures</h1>
+            <p>React Native App Demo</p>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('home')">🏠 Home</div>
+            <div class="tab" onclick="showTab('products')">👕 Producten</div>
+            <div class="tab" onclick="showTab('cart')">🛒 Mandje <span class="cart-badge" id="cart-count">0</span></div>
+            <div class="tab" onclick="showTab('about')">ℹ️ Over</div>
+            <div class="tab" onclick="showTab('contact')">📞 Contact</div>
+        </div>
+        
+        <div id="home" class="tab-content active">
+            <div class="hero">
+                <h2>Ontdek Unieke Tweede Hands Mode</h2>
+                <p>Duurzame fashion met karakter. Vind jouw perfecte vintage piece.</p>
+                <button class="hero-btn" onclick="showTab('products')">Shop Nu</button>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">♻️</div>
+                <h3>Duurzaam</h3>
+                <p>Geef kleding een tweede leven en draag bij aan een duurzame toekomst.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Uniek</h3>
+                <p>Vind unieke pieces die je nergens anders tegenkomt.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Betaalbaar</h3>
+                <p>Kwaliteit mode tegen een fractie van de nieuwprijs.</p>
+            </div>
+        </div>
+        
+        <div id="products" class="tab-content">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #8B4513;">Onze Collectie</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">Vintage Leren Jas</div>
+                    <div class="product-info">
+                        <div class="product-name">Vintage Leren Jas</div>
+                        <div class="product-price">€45,00</div>
+                        <button class="add-btn" onclick="addToCart(1, 'Vintage Leren Jas', 45)">Toevoegen</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">Retro Bloemen Jurk</div>
+                    <div class="product-info">
+                        <div class="product-name">Retro Bloemen Jurk</div>
+                        <div class="product-price">€28,00</div>
+                        <button class="add-btn" onclick="addToCart(2, 'Retro Bloemen Jurk', 28)">Toevoegen</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">Classic Denim Jacket</div>
+                    <div class="product-info">
+                        <div class="product-name">Classic Denim Jacket</div>
+                        <div class="product-price">€35,00</div>
+                        <button class="add-btn" onclick="addToCart(3, 'Classic Denim Jacket', 35)">Toevoegen</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">Vintage Leren Tas</div>
+                    <div class="product-info">
+                        <div class="product-name">Vintage Leren Tas</div>
+                        <div class="product-price">€22,00</div>
+                        <button class="add-btn" onclick="addToCart(4, 'Vintage Leren Tas', 22)">Toevoegen</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">Retro Silk Blouse</div>
+                    <div class="product-info">
+                        <div class="product-name">Retro Silk Blouse</div>
+                        <div class="product-price">€18,00</div>
+                        <button class="add-btn" onclick="addToCart(5, 'Retro Silk Blouse', 18)">Toevoegen</button>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">Vintage High-waist Broek</div>
+                    <div class="product-info">
+                        <div class="product-name">Vintage High-waist Broek</div>
+                        <div class="product-price">€32,00</div>
+                        <button class="add-btn" onclick="addToCart(6, 'Vintage High-waist Broek', 32)">Toevoegen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="cart" class="tab-content">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #8B4513;">Winkelmandje</h2>
+            <div id="cart-items">
+                <div class="empty-cart">
+                    <div style="font-size: 50px; margin-bottom: 20px;">🛒</div>
+                    <p>Je winkelmandje is leeg</p>
+                </div>
+            </div>
+            <div id="cart-total-section" style="display: none;">
+                <div class="cart-total">
+                    <h3>Totaal: €<span id="total-price">0,00</span></h3>
+                    <button class="checkout-btn" onclick="checkout()">Afrekenen</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="about" class="tab-content">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #8B4513;">Over Vintage Treasures</h2>
+            <div class="about-text">
+                <p>Vintage Treasures is ontstaan uit een passie voor duurzame mode en het geven van een tweede leven aan prachtige kledingstukken. Wij geloven dat mode niet wegwerp hoeft te zijn en dat elk kledingstuk zijn eigen verhaal heeft.</p>
+                
+                <p>Onze collectie bestaat uit zorgvuldig geselecteerde vintage en tweede hands items die elk hun eigen charme en karakter hebben. Van klassieke leren jassen tot elegante vintage jurken - elk item wordt door ons team persoonlijk uitgezocht.</p>
+                
+                <p>We willen mode toegankelijk maken voor iedereen, zonder de planeet te belasten. Door tweede hands kleding een nieuw leven te geven, verminderen we textielafval en promoten we een circulaire economie.</p>
+            </div>
+        </div>
+        
+        <div id="contact" class="tab-content">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #8B4513;">Contact</h2>
+            <div class="contact-info">
+                <p><strong>📍 Adres:</strong><br>
+                   Fashionstraat 123<br>
+                   1000 AB Amsterdam</p>
+                
+                <p><strong>📞 Telefoon:</strong><br>
+                   +31 20 123 4567</p>
+                
+                <p><strong>✉️ Email:</strong><br>
+                   info@vintagetreasures.nl</p>
+                
+                <p><strong>🕒 Openingstijden:</strong><br>
+                   Ma-Vr: 10:00 - 18:00<br>
+                   Za: 10:00 - 17:00<br>
+                   Zo: 12:00 - 16:00</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let cart = [];
+        let total = 0;
+        
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function addToCart(id, name, price) {
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, quantity: 1 });
+            }
+            
+            updateCart();
+            showAddedMessage(name);
+        }
+        
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const totalPrice = document.getElementById('total-price');
+            const cartTotalSection = document.getElementById('cart-total-section');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <div style="font-size: 50px; margin-bottom: 20px;">🛒</div>
+                        <p>Je winkelmandje is leeg</p>
+                    </div>
+                `;
+                cartTotalSection.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            €${item.price.toFixed(2)} x ${item.quantity}
+                        </div>
+                        <div>
+                            <button onclick="removeFromCart(${item.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Verwijder</button>
+                        </div>
+                    </div>
+                `).join('');
+                cartTotalSection.style.display = 'block';
+            }
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            cartCount.textContent = totalItems;
+            totalPrice.textContent = total.toFixed(2).replace('.', ',');
+        }
+        
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
+        
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            alert(`Bedankt voor je bestelling!\nTotaal: €${total.toFixed(2).replace('.', ',')}\n\nJe wordt doorgestuurd naar de betaalpagina.`);
+            cart = [];
+            updateCart();
+        }
+        
+        function showAddedMessage(name) {
+            const message = document.createElement('div');
+            message.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 1000;
+                font-weight: bold;
+            `;
+            message.textContent = `${name} toegevoegd!`;
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.style.opacity = '0';
+                setTimeout(() => document.body.removeChild(message), 300);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
